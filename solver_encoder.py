@@ -1,8 +1,10 @@
-from model_vc import Generator
+import datetime
+import time
+
 import torch
 import torch.nn.functional as F
-import time
-import datetime
+
+from model_vc import Generator
 
 
 class Solver(object):
@@ -106,11 +108,15 @@ class Solver(object):
             # =================================================================================== #
 
             # Print out training information.
-            if (i+1) % self.log_step == 0:
+            if (i + 1) % self.log_step == 0:
                 et = time.time() - start_time
+                eta = et / i * (self.num_iters - i)
+
                 et = str(datetime.timedelta(seconds=et))[:-7]
-                log = "Elapsed [{}], Iteration [{}/{}]".format(
-                    et, i+1, self.num_iters)
+                eta = str(datetime.timedelta(seconds=eta))[:-7]
+
+                log = "Elapsed/ETA [{}/{}], Iteration [{}/{}]".format(
+                    et, eta, i + 1, self.num_iters)
                 for tag in keys:
                     log += ", {}: {:.4f}".format(tag, loss[tag])
                 print(log)
