@@ -1,2 +1,2 @@
 *.pyc
-*.wav
+.DS_Store
