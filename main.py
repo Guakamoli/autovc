@@ -45,6 +45,7 @@ if __name__ == '__main__':
 
     # Miscellaneous.
     parser.add_argument('--log_step', type=int, default=10)
+    parser.add_argument('--save_step', type=int, default=1000)
 
     config = parser.parse_args()
     print(config)

@@ -1,5 +1,6 @@
 import datetime
 import time
+from os import path
 
 import torch
 import torch.nn.functional as F
@@ -30,6 +31,7 @@ class Solver(object):
         self.use_cuda = torch.cuda.is_available()
         self.device = torch.device('cuda:0' if self.use_cuda else 'cpu')
         self.log_step = config.log_step
+        self.save_step = config.save_step
 
         # Build the model and tensorboard.
         self.build_model()
@@ -120,3 +122,13 @@ class Solver(object):
                 for tag in keys:
                     log += ", {}: {:.4f}".format(tag, loss[tag])
                 print(log)
+
+            if (1 + 1) % self.save_step == 0:
+                filename = path.join(path.dirname(__file__), 'outs',
+                                     f'autovc_{i + 1}.ckpt')
+                torch.save({'model': self.G.state_dict(),
+                            'optimizer': self.g_optimizer.state_dict()}, filename)
+                print('Saved to', filename)
+
+        torch.save({'model': self.G.state_dict(),
+                    'optimizer': self.g_optimizer.state_dict()}, 'autovc0.ckpt')
