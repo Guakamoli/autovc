@@ -49,7 +49,7 @@ class Solver(object):
         """Reset the gradient buffers."""
         self.g_optimizer.zero_grad()
 
-    #=====================================================================================================================================#
+    # ==============================================================================================#
 
     def train(self):
         # Set data loader.
@@ -123,7 +123,7 @@ class Solver(object):
                     log += ", {}: {:.4f}".format(tag, loss[tag])
                 print(log)
 
-            if (1 + 1) % self.save_step == 0:
+            if (i + 1) % self.save_step == 0:
                 filename = path.join(path.dirname(__file__), 'outs',
                                      f'autovc_{i + 1}.ckpt')
                 torch.save({'model': self.G.state_dict(),
